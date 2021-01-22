@@ -1,7 +1,7 @@
 package com.example.springmongock.datamigration.changelogs.appconfig;
 
 import com.example.springmongock.app.model.AppConfiguration;
-import com.github.cloudyrock.mongock.driver.mongodb.springdata.v3.decorator.impl.MongockTemplate;
+import com.example.springmongock.datamigration.repository.AppConfigSyncRepository;
 import io.changock.migration.api.annotations.ChangeLog;
 import io.changock.migration.api.annotations.ChangeSet;
 
@@ -14,12 +14,11 @@ public class AddMaximumStock {
             id = "20210202-add-maximum-stock-per-item",
             author = "Thanaphoom Babparn"
     )
-    public void addMaximumStockPerItemConfig(MongockTemplate mongockTemplate) {
-        AppConfiguration maximumStock = AppConfiguration.builder()
-                .key("MAXIMUM_STOCK_PER_ITEM")
-                .value(100)
-                .build();
-        mongockTemplate.insert(maximumStock);
+    public void addMaximumStockPerItemConfig(AppConfigSyncRepository appConfigSyncRepository) {
+        AppConfiguration maximumStock = new AppConfiguration();
+        maximumStock.setKey("MAXIMUM_STOCK_PER_ITEM");
+        maximumStock.setValue(100);
+        appConfigSyncRepository.save(maximumStock);
     }
 
 }

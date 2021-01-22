@@ -1,7 +1,7 @@
 package com.example.springmongock.datamigration.changelogs.appconfig;
 
 import com.example.springmongock.app.model.AppConfiguration;
-import com.github.cloudyrock.mongock.driver.mongodb.springdata.v3.decorator.impl.MongockTemplate;
+import com.example.springmongock.datamigration.repository.AppConfigSyncRepository;
 import io.changock.migration.api.annotations.ChangeLog;
 import io.changock.migration.api.annotations.ChangeSet;
 
@@ -16,11 +16,10 @@ public class AddAcceptFileType {
             id = "20210206-add-accept-file-type",
             author = "Thanaphoom Babparn"
     )
-    public void addAcceptFileType(MongockTemplate mongockTemplate) {
-        AppConfiguration acceptFileType = AppConfiguration.builder()
-                .key("ACCEPT_FILE_TYPE")
-                .value(List.of("jpg", "jpeg", "png"))
-                .build();
-        mongockTemplate.insert(acceptFileType);
+    public void addAcceptFileType(AppConfigSyncRepository appConfigSyncRepository) {
+        AppConfiguration acceptFileType = new AppConfiguration();
+        acceptFileType.setKey("ACCEPT_FILE_TYPE");
+        acceptFileType.setValue(List.of("jpg", "jpeg", "png"));
+        appConfigSyncRepository.insert(acceptFileType);
     }
 }

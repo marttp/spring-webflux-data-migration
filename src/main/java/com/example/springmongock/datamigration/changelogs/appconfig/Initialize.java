@@ -1,9 +1,10 @@
 package com.example.springmongock.datamigration.changelogs.appconfig;
 
 import com.example.springmongock.app.model.AppConfiguration;
-import com.github.cloudyrock.mongock.driver.mongodb.springdata.v3.decorator.impl.MongockTemplate;
+import com.example.springmongock.datamigration.repository.AppConfigSyncRepository;
 import io.changock.migration.api.annotations.ChangeLog;
 import io.changock.migration.api.annotations.ChangeSet;
+import io.changock.migration.api.annotations.NonLockGuarded;
 
 import java.util.List;
 
@@ -16,12 +17,11 @@ public class Initialize {
             id = "20210122-initial-app-config-collection-with-sample-config",
             author = "Thanaphoom Babparn"
     )
-    public void createInitializeAppConfiguration(MongockTemplate mongockTemplate) {
-        AppConfiguration appConfiguration = AppConfiguration.builder()
-                .key("APP_VERSION")
-                .value(1)
-                .build();
-        mongockTemplate.insert(appConfiguration);
+    public void createInitializeAppConfiguration(AppConfigSyncRepository appConfigSyncRepository) {
+        AppConfiguration appConfiguration = new AppConfiguration();
+        appConfiguration.setKey("APP_VERSION");
+        appConfiguration.setValue(1);
+        appConfigSyncRepository.insert(appConfiguration);
     }
 
     @ChangeSet(
@@ -30,16 +30,16 @@ public class Initialize {
             id = "20210122-add-app-name",
             author = "Thanaphoom Babparn"
     )
-    public void addApplicationName(MongockTemplate mongockTemplate) {
-        AppConfiguration backendAppName = AppConfiguration.builder()
-                .key("BACKEND_APP_NAME")
-                .value("ShoppingDiscount-BE")
-                .build();
-        AppConfiguration mobileAppName = AppConfiguration.builder()
-                .key("MOBILE_APP_NAME")
-                .value("MOBILE-ShoppingDiscount")
-                .build();
-        mongockTemplate.insertAll(List.of(backendAppName, mobileAppName));
+    public void addApplicationName(AppConfigSyncRepository appConfigSyncRepository) {
+        AppConfiguration backendAppName = new AppConfiguration();
+        backendAppName.setKey("BACKEND_APP_NAME");
+        backendAppName.setValue("ShoppingDiscount-BE");
+
+        AppConfiguration mobileAppName = new AppConfiguration();
+        mobileAppName.setKey("MOBILE_APP_NAME");
+        mobileAppName.setValue("MOBILE-ShoppingDiscount");
+
+        appConfigSyncRepository.insert(List.of(backendAppName, mobileAppName));
     }
 
 }

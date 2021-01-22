@@ -10,5 +10,9 @@ changock:
   change-logs-scan-package:
     - com.example.springmongock.datamigration.changelogs.appconfig
   start-system-version: 1
-  end-system-version: 2.5
-#  end-system-version: 2.7
+#  end-system-version: 1
+#  end-system-version: 2.5
+  end-system-version: 2.7
+#  enabled: false
+  change-log-collection-name: change_log_migration
+  lock-collection-name: lock_migration
