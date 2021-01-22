@@ -1,0 +1,14 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb://root:123456789@localhost:27017/poc_migration?authSource=admin
+
+server:
+  port: 8030
+
+changock:
+  change-logs-scan-package:
+    - com.example.springmongock.datamigration.changelogs.appconfig
+  start-system-version: 1
+  end-system-version: 2.5
+#  end-system-version: 2.7
